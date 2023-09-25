@@ -4,13 +4,17 @@ import NewListing from "./NewListing";
 
 const MapLayout = ({
   setListing,
-  state,
+  listing,
   setLocation,
   location,
   zoom,
   setZoom,
   marker,
   setMarker,
+  savedMarkers,
+  setSavedMarkers,
+  checked,
+  setChecked,
 }) => {
   return (
     <div>
@@ -19,11 +23,15 @@ const MapLayout = ({
           setLocation={setLocation}
           location={location}
           setListing={setListing}
-          state={state}
+          listing={listing}
           zoom={zoom}
           setZoom={setZoom}
           marker={marker}
           setMarker={setMarker}
+          savedMarkers={savedMarkers}
+          setSavedMarkers={setSavedMarkers}
+          checked={checked}
+          setChecked={setChecked}
         />
       </div>
       <div>
@@ -32,6 +40,7 @@ const MapLayout = ({
           zoom={zoom}
           marker={marker}
           setMarker={setMarker}
+          savedMarkers={savedMarkers}
         />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import MapLayout from "./map/MapLayout.js";
-import React from "react";
+import React, { useEffect } from "react";
 import ListingLayout from "./listing/ListingLayout.js";
 import { useState } from "react";
 import TopNav from "./TopNav.js";
@@ -10,10 +10,20 @@ function App(props) {
   const [location, setLocation] = useState([
     37.76852786726268, -122.4520234916232,
   ]);
-  const [marker, setMarker] = useState([]);
-  const [zoom, setZoom] = useState(10);
 
-  console.log("listing state inside of app", listing);
+  // 8======D
+  const [marker, setMarker] = useState([]);
+  const [savedMarkers, setSavedMarkers] = useState([]);
+  const [zoom, setZoom] = useState(10);
+  const [checked, setChecked] = useState([]); // get rid of chcecked chain
+
+  // useEffect(() => {
+  //   //
+
+  // }, [checked])
+
+  console.log("listing in app = ", listing);
+
   return (
     <>
       <TopNav />
@@ -22,13 +32,25 @@ function App(props) {
         location={location}
         setLocation={setLocation}
         setListing={setListing}
-        state={listing}
+        listing={listing}
         zoom={zoom}
         setZoom={setZoom}
         marker={marker}
         setMarker={setMarker}
+        savedMarkers={savedMarkers}
+        setSavedMarkers={setSavedMarkers}
+        checked={checked}
+        setChecked={setChecked}
       />
-      <ListingLayout className="listingLayout" state={listing} />
+      <ListingLayout
+        className="listingLayout"
+        listingState={listing}
+        setListing={setListing}
+        savedMarkers={savedMarkers}
+        setSavedMarkers={setSavedMarkers}
+        checked={checked}
+        setChecked={setChecked}
+      />
     </>
   );
 }

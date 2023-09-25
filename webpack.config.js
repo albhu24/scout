@@ -28,12 +28,16 @@ module.exports = {
         exclude: /node_modules/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      { test: /\.svg$/, use: ["svg-url-loader"] },
     ],
   },
   devServer: {
     static: {
       directory: path.resolve(__dirname, "build"),
       publicPath: "/build",
+    },
+    proxy: {
+      "/listing": "http://localhost:3000",
     },
   },
   resolve: {

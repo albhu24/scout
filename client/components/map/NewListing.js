@@ -6,45 +6,29 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { Marker } from "@react-google-maps/api";
+import homeIcon from "../../icons/home.svg";
 
 const NewListing = ({
   setListing,
-  state,
+  listing,
   location,
   setLocation,
   zoom,
   setZoom,
   marker,
   setMarker,
+  savedMarkers,
+  setSavedMarkers,
+  checked,
+  setChecked,
 }) => {
   async function handleClick() {
     const address = document.getElementById("address").value;
     const city = document.getElementById("city").value;
     const zipCode = document.getElementById("zipCode").value;
-    const price = document.getElementById("price").value;
-    const moveInDate = document.getElementById("date").value;
-    const numBedBath = document.getElementById("bedbath").value;
-    const squareFootage = document.getElementById("squarefoot").value;
-    const notes = document.getElementById("notes").value;
-
     const geoLocationAddress = `${address}, ${city}, ${zipCode}, California`;
 
-    // Updating listing state
-    const arr = state.slice();
-    arr.push(
-      <Listing
-        key={state.length}
-        address={address}
-        city={city}
-        zipCode={zipCode}
-        price={price}
-        moveInDate={moveInDate}
-        bedBath={numBedBath}
-        square={squareFootage}
-        notes={notes}
-      />
-    );
-    setListing(arr);
+    // Updating listing state-> move this into handleSave
 
     // Finding Geolocation of address
     const result = await getGeocode({
@@ -57,15 +41,61 @@ const NewListing = ({
     setLocation(geoLocation);
     setZoom(18);
 
-    // Displaying marker (Updating state marker)
-    const markerArr = [...marker];
-    markerArr.push(
+    // Displaying search marker (Updating state marker)
+    const markerArr = [
+      <Marker key={marker.length} position={{ lat: lat, lng: lng }} />,
+    ];
+    setMarker(markerArr);
+  }
+
+  async function handleSave() {
+    // db functionality
+
+    const address = document.getElementById("address").value;
+    const city = document.getElementById("city").value;
+    const zipCode = document.getElementById("zipCode").value;
+    const geoLocationAddress = `${address}, ${city}, ${zipCode}, California`;
+
+    // const price = document.getElementById("price").value;
+    // const moveInDate = document.getElementById("date").value;
+    // const numBedBath = document.getElementById("bedbath").value;
+    // const squareFootage = document.getElementById("squarefoot").value;
+    // const notes = document.getElementById("notes").value;
+    const addressData = { address: address, city: city, zipCode: zipCode };
+
+    await fetch("/listing", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(addressData),
+    });
+
+    // // Updating save listing state
+
+    const arr = [...listing, { address, city, zipCode, checked: false }];
+    setListing(arr);
+
+    // Finding Geolocation of address
+    const result = await getGeocode({
+      address: geoLocationAddress,
+    });
+    const { lat, lng } = await getLatLng(result[0]);
+    const geoLocation = [lat, lng];
+
+    // Setting GeoLocation to Center (Updating location state)
+    setLocation(geoLocation);
+    // Setting saveListingState
+    const savedMarkersArr = [...savedMarkers];
+    savedMarkersArr.push(
       <Marker
-        key={marker.length}
-        position={{ lat: location[0], lng: location[1] }}
+        key={`SM${marker.length}`}
+        position={{ lat: lat, lng: lng }}
+        // icon={homeIcon} // sizing is weird here, need to debug
       />
     );
-    setMarker(markerArr);
+    setSavedMarkers(savedMarkersArr);
   }
   return (
     <div>
@@ -88,43 +118,10 @@ const NewListing = ({
             <input id="zipCode" />
           </label>
         </div>
-        <div>
-          <label>
-            Price:
-            <input id="price" />
-          </label>
-        </div>
-        <div>
-          <label>
-            Move in Date:
-            <input id="date" />
-          </label>
-        </div>
-        <div>
-          <label>House Info</label>
-        </div>
-        <div>
-          <label>
-            Bed/Bath:
-            <input id="bedbath" />
-          </label>
-        </div>
-        <div>
-          <label>
-            Square Footage:
-            <input id="squarefoot" />
-          </label>
-        </div>
-        <div>
-          <label>
-            Notes:
-            <input id="notes" />
-          </label>
-        </div>
       </form>
       <div>
         <button onClick={handleClick}>Search</button>
-        <button>Save</button>
+        <button onClick={handleSave}>Save</button>
       </div>
     </div>
   );

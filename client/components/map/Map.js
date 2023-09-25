@@ -7,17 +7,22 @@ const containerStyle = {
   height: "50%",
 };
 
-function Map({ location, zoom, marker }) {
+function Map({ location, zoom, marker, savedMarkers }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: MAP_API_KEY,
   });
   if (!isLoaded) return <div></div>;
-  return <MapAndMarker location={location} zoom={zoom} marker={marker} />;
+  return (
+    <MapAndMarker
+      location={location}
+      zoom={zoom}
+      marker={marker}
+      savedMarkers={savedMarkers}
+    />
+  );
 }
 
-function MapAndMarker({ location, zoom, marker }) {
-  console.log(marker, "marker");
-
+function MapAndMarker({ location, zoom, marker, savedMarkers }) {
   return (
     <div>
       <GoogleMap
@@ -26,6 +31,7 @@ function MapAndMarker({ location, zoom, marker }) {
         mapContainerStyle={containerStyle}
       >
         {marker}
+        {savedMarkers}
       </GoogleMap>
     </div>
   );
