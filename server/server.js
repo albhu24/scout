@@ -20,6 +20,12 @@ app.use(express.json());
 app.post("/listing", listingController.setAddress, (req, res) =>
   res.sendStatus(200)
 );
+app.put("/listing", listingController.updateListing, (req, res) =>
+  res.sendStatus(200)
+);
+app.delete("/listing", listingController.deleteListing, (req, res) =>
+  res.sendStatus(200)
+);
 
 // visiting endpoint that is not defined
 // app.use((req, res) =>

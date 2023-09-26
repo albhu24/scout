@@ -10,9 +10,41 @@ listingController.setAddress = async (req, res, next) => {
     city: city,
     zipCode: zipCode,
   });
-  const result = await Listing.findOne({ zipCode: 95014 });
-  console.log(result);
   return next();
 };
 
+listingController.updateListing = async (req, res, next) => {
+  console.log(prevAddress);
+  const {
+    prevAddress,
+    address,
+    city,
+    zipCode,
+    price,
+    moveInDate,
+    numBedBath,
+    squareFootage,
+    notes,
+  } = req.body;
+  await Listing.updateOne(
+    { address: prevAddress },
+    {
+      address: address,
+      city: city,
+      zipCode: Number(zipCode),
+      price: Number(price),
+      numBedBath: Number(numBedBath),
+      squareFootage: Number(squareFootage),
+      moveInDate: moveInDate,
+      notes: notes,
+    }
+  );
+  return next();
+};
+
+listingController.deleteListing = async (req, res, next) => {
+  const { deleteAddress } = req.body;
+  await Listing.deleteOne({ address: deleteAddress });
+  return next;
+};
 module.exports = listingController;

@@ -6,10 +6,10 @@ const listingSchema = new Schema({
   city: { type: String },
   zipCode: { type: Number },
   price: { type: Number },
-  moveInDate: { type: Date },
+  moveInDate: { type: String },
   numBedBath: { type: Number },
   squareFootage: { type: Number },
-  Notes: { type: String },
+  notes: { type: String },
 });
 
 module.exports = mongoose.model("Listing", listingSchema);

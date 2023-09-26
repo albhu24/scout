@@ -6,20 +6,14 @@ const Listing = ({
   zipCode,
   price,
   moveInDate,
-  bedBath,
-  square,
+  numBedBath,
+  squareFootage,
   notes,
   checked,
   listing,
   setListing,
-  // setChecked,
-  // listingCount,
   keyIndex,
 }) => {
-  // listingState = [{checked: true}, {checked:false}]
-
-  // hi alby <3
-
   function onChange() {
     // update check boolean
     const currentObj = listing[keyIndex]; //currentObj = {checked: true}
@@ -38,16 +32,19 @@ const Listing = ({
           <input type="checkbox" checked={checked} onChange={onChange}></input>
         </div>
         <img></img>
-        <input type="file" multiple accept="image/*"></input>
-        <div>Address: {address}</div>
+        <div>
+          Upload a image:
+          <input id="imageUpload" type="file" multiple accept="image/*" />
+        </div>
+        <div id="addy">Address: {address}</div>
         <div>City: {city} </div>
         <div>Zip Code: {zipCode} </div>
-        <div>Price: </div>
-        <div>Move in Date: </div>
+        <div>Price: {price}</div>
+        <div>Move in Date: {moveInDate}</div>
         <div>House Info: </div>
-        <div>Bed/Bath: </div>
-        <div>Square Footage: </div>
-        <div>Notes: </div>
+        <div>Bed/Bath: {numBedBath}</div>
+        <div>Square Footage: {squareFootage}</div>
+        <div>Notes: {notes} </div>
       </form>
     </div>
   );

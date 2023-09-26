@@ -74,7 +74,20 @@ const NewListing = ({
 
     // // Updating save listing state
 
-    const arr = [...listing, { address, city, zipCode, checked: false }];
+    const arr = [
+      ...listing,
+      {
+        address,
+        city,
+        zipCode,
+        checked: false,
+        price: undefined,
+        moveInDate: undefined,
+        numBedBath: undefined,
+        squareFootage: undefined,
+        notes: undefined,
+      },
+    ];
     setListing(arr);
 
     // Finding Geolocation of address

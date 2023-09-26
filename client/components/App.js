@@ -11,16 +11,10 @@ function App(props) {
     37.76852786726268, -122.4520234916232,
   ]);
 
-  // 8======D
   const [marker, setMarker] = useState([]);
   const [savedMarkers, setSavedMarkers] = useState([]);
   const [zoom, setZoom] = useState(10);
   const [checked, setChecked] = useState([]); // get rid of chcecked chain
-
-  // useEffect(() => {
-  //   //
-
-  // }, [checked])
 
   console.log("listing in app = ", listing);
 
