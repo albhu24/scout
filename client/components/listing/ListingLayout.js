@@ -4,10 +4,29 @@ import Popup from "reactjs-popup";
 import EditListing from "./EditListing";
 const ListingLayout = ({ listingState, setListing }) => {
   const handleDeleteClick = () => {
-    const listingArr = listingState.filter((e) => e["checked"] === false);
+    const deleteAddress = [];
+    const listingArr = listingState.filter((e) => {
+      if (e["checked"] === true) {
+        deleteAddress.push(e.address);
+      }
+      return e["checked"] === false;
+    });
+    console.log(deleteAddress);
     setListing(listingArr);
 
     // database deleting might have to go here as well
+    const addressData = {
+      address: deleteAddress,
+    };
+
+    fetch("/listing", {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(addressData),
+    });
   };
 
   return (

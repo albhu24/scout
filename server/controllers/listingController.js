@@ -14,10 +14,9 @@ listingController.setAddress = async (req, res, next) => {
 };
 
 listingController.updateListing = async (req, res, next) => {
-  console.log(prevAddress);
   const {
-    prevAddress,
     address,
+    prevAddress,
     city,
     zipCode,
     price,
@@ -26,6 +25,7 @@ listingController.updateListing = async (req, res, next) => {
     squareFootage,
     notes,
   } = req.body;
+
   await Listing.updateOne(
     { address: prevAddress },
     {
@@ -39,12 +39,16 @@ listingController.updateListing = async (req, res, next) => {
       notes: notes,
     }
   );
+
+  console.log(await Listing.findOne({ price: Number(price) }));
   return next();
 };
 
 listingController.deleteListing = async (req, res, next) => {
-  const { deleteAddress } = req.body;
-  await Listing.deleteOne({ address: deleteAddress });
+  const { address } = req.body;
+  for (let i = 0; i < address.length; i++) {
+    await Listing.deleteOne({ address: address[i] });
+  }
   return next;
 };
 module.exports = listingController;

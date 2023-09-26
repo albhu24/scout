@@ -17,12 +17,14 @@ const app = express();
 app.use(express.json());
 // app.use(cors);
 // app.use(express.static(path.resolve(__dirname, "../client")));
-app.post("/listing", listingController.setAddress, (req, res) =>
-  res.sendStatus(200)
-);
-app.put("/listing", listingController.updateListing, (req, res) =>
-  res.sendStatus(200)
-);
+app.post("/listing", listingController.setAddress, (req, res) => {
+  return res.sendStatus(200);
+});
+app.put("/listing", listingController.updateListing, (req, res) => {
+  console.log("test33333");
+
+  return res.sendStatus(200);
+});
 app.delete("/listing", listingController.deleteListing, (req, res) =>
   res.sendStatus(200)
 );
