@@ -4,7 +4,8 @@ const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const listingController = require("./controllers/listingController");
-
+const passport = require("passport");
+const session = require("express-session");
 // put these inside of env variables
 const PORT = 3000;
 const database_URI = "mongodb://127.0.0.1:27017/scout";
@@ -13,21 +14,30 @@ const database_URI = "mongodb://127.0.0.1:27017/scout";
 mongoose.connect(database_URI);
 const app = express();
 
+// require routers
+const listing = require("./routes/listingRouter.js");
+const login = require("./routes/loginRouter.js");
+const signup = require("./routes/signupRouter.js");
+
 // middleware
 app.use(express.json());
+app.use("/signup", signup);
+app.use("/login", login);
+app.use("/listing", listing);
+
 // app.use(cors);
 // app.use(express.static(path.resolve(__dirname, "../client")));
-app.post("/listing", listingController.setAddress, (req, res) => {
-  return res.sendStatus(200);
-});
-app.put("/listing", listingController.updateListing, (req, res) => {
-  console.log("test33333");
+// app.post("/listing", listingController.setAddress, (req, res) => {
+//   return res.sendStatus(200);
+// });
+// app.put("/listing", listingController.updateListing, (req, res) => {
+//   console.log("test33333");
 
-  return res.sendStatus(200);
-});
-app.delete("/listing", listingController.deleteListing, (req, res) =>
-  res.sendStatus(200)
-);
+//   return res.sendStatus(200);
+// });
+// app.delete("/listing", listingController.deleteListing, (req, res) =>
+//   res.sendStatus(200)
+// );
 
 // visiting endpoint that is not defined
 // app.use((req, res) =>

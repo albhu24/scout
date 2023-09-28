@@ -98,43 +98,97 @@ const NewListing = ({
     const geoLocation = [lat, lng];
 
     // Setting GeoLocation to Center (Updating location state)
-    setLocation(geoLocation);
+    // maybe we dont need to set location just, only when it is searched
+    // setLocation(geoLocation);
+
     // Setting saveListingState
+    // const savedMarkersArr = [...savedMarkers];
+    // savedMarkersArr.push(
+    //   <Marker
+    //     key={`SM${marker.length}`}
+    //     position={{ lat: lat, lng: lng }}
+    //     // icon={homeIcon} // sizing is weird here, need to debug
+    //   />
+    // );
+    // setSavedMarkers(savedMarkersArr);
+
+    // Fixing the saveMarkers portion
     const savedMarkersArr = [...savedMarkers];
-    savedMarkersArr.push(
-      <Marker
-        key={`SM${marker.length}`}
-        position={{ lat: lat, lng: lng }}
-        // icon={homeIcon} // sizing is weird here, need to debug
-      />
-    );
+    savedMarkersArr.push([address, lat, lng]);
     setSavedMarkers(savedMarkersArr);
   }
+  // return (
+  //   <div>
+  //     <form id="listing">
+  //       <div>
+  //         <label>
+  //           Address:
+  //           <input id="address" />
+  //         </label>
+  //       </div>
+  //       <div>
+  //         <label>
+  //           City:
+  //           <input id="city" />
+  //         </label>
+  //       </div>
+  //       <div>
+  //         <label>
+  //           Zip Code:
+  //           <input id="zipCode" />
+  //         </label>
+  //       </div>
+  //     </form>
+  //     <div>
+  //       <button onClick={handleClick}>Search</button>
+  //       <button onClick={handleSave}>Save</button>
+  //     </div>
+  //   </div>
+  // );
   return (
-    <div>
+    <div className="bg-white p-4 rounded-lg shadow">
       <form id="listing">
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="text-gray-600">
             Address:
-            <input id="address" />
+            <input
+              id="address"
+              className="border border-gray-300 rounded-md px-2 py-1 w-full"
+            />
           </label>
         </div>
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="text-gray-600">
             City:
-            <input id="city" />
+            <input
+              id="city"
+              className="border border-gray-300 rounded-md px-2 py-1 w-full"
+            />
           </label>
         </div>
-        <div>
-          <label>
+        <div className="mb-3">
+          <label className="text-gray-600">
             Zip Code:
-            <input id="zipCode" />
+            <input
+              id="zipCode"
+              className="border border-gray-300 rounded-md px-2 py-1 w-full"
+            />
           </label>
         </div>
       </form>
-      <div>
-        <button onClick={handleClick}>Search</button>
-        <button onClick={handleSave}>Save</button>
+      <div className="flex justify-between">
+        <button
+          onClick={handleClick}
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          Search
+        </button>
+        <button
+          onClick={handleSave}
+          className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300"
+        >
+          Save
+        </button>
       </div>
     </div>
   );
