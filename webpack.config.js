@@ -85,6 +85,15 @@ module.exports = {
         use: ["style-loader", "css-loader", "postcss-loader"],
       },
       { test: /\.svg$/, use: ["svg-url-loader"] },
+      {
+        test: /\.(jpg|jpeg)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
+          },
+        },
+      },
     ],
   },
   devServer: {
@@ -94,7 +103,7 @@ module.exports = {
     },
     proxy: [
       {
-        context: ["/signup", "/login", "/listing"],
+        context: ["/images", "/signup", "/login", "/listing"],
         target: "http://localhost:3000",
       },
     ],

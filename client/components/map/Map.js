@@ -1,37 +1,52 @@
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-const MAP_API_KEY = "AIzaSyDzo1wTcWYDf_JBLnrioWiUhyRKMxLidc4";
 import React from "react";
-import { useState } from "react";
+
 const containerStyle = {
   width: "100%",
-  height: "100%",
+  height: "calc(100vh - 64px)",
 };
 
 function Map({ location, zoom, marker, savedMarkers }) {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: MAP_API_KEY,
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.MAPS_API_KEY,
   });
-  if (!isLoaded) return <div></div>;
+
+  if (loadError)
+    return (
+      <div className="text-red-500 font-bold text-center mt-5">
+        Error loading maps
+      </div>
+    );
+  if (!isLoaded)
+    return (
+      <div className="text-gray-500 font-bold text-center mt-5">
+        Loading Map...
+      </div>
+    );
+
   return (
-    <MapAndMarker
-      location={location}
-      zoom={zoom}
-      marker={marker}
-      savedMarkers={savedMarkers}
-    />
+    <div className="h-screen w-full">
+      <div className="relative w-full h-full">
+        <MapAndMarker
+          location={location}
+          zoom={zoom}
+          marker={marker}
+          savedMarkers={savedMarkers}
+        />
+      </div>
+    </div>
   );
 }
 
 function MapAndMarker({ location, zoom, marker, savedMarkers }) {
   return (
-    <div>
+    <div className="absolute top-16 left-0 right-0 bottom-0">
       <GoogleMap
         zoom={zoom}
         center={{ lat: location[0], lng: location[1] }}
         mapContainerStyle={containerStyle}
       >
         {marker}
-        {/* {savedMarkers} */}
         {savedMarkers.map((item, index) => (
           <Marker key={index} position={{ lat: item[1], lng: item[2] }} />
         ))}

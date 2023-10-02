@@ -7,6 +7,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import { Marker } from "@react-google-maps/api";
 import homeIcon from "../../icons/home.svg";
+import Modal from "react-modal";
 
 const NewListing = ({
   setListing,

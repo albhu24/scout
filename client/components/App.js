@@ -121,35 +121,37 @@ function App(props) {
   const [checked, setChecked] = useState([]);
 
   return (
-    <div className="bg-gray-100 h-screen flex-row-reverse">
-      <div className="w-70">
-        {/* MapLayout takes up 70% */}
-        <MapLayout
-          location={location}
-          setLocation={setLocation}
-          setListing={setListing}
-          listing={listing}
-          zoom={zoom}
-          setZoom={setZoom}
-          marker={marker}
-          setMarker={setMarker}
-          savedMarkers={savedMarkers}
-          setSavedMarkers={setSavedMarkers}
-          checked={checked}
-          setChecked={setChecked}
-        />
-      </div>
-
-      <div className="w-30">
-        {/* ListingLayout takes up 30% */}
-        <ListingLayout
-          listingState={listing}
-          setListing={setListing}
-          savedMarkers={savedMarkers}
-          setSavedMarkers={setSavedMarkers}
-          checked={checked}
-          setChecked={setChecked}
-        />
+    <div>
+      <TopNav />
+      <div>
+        {/* Map section */}
+        <div>
+          <MapLayout
+            location={location}
+            setLocation={setLocation}
+            setListing={setListing}
+            listing={listing}
+            zoom={zoom}
+            setZoom={setZoom}
+            marker={marker}
+            setMarker={setMarker}
+            savedMarkers={savedMarkers}
+            setSavedMarkers={setSavedMarkers}
+            checked={checked}
+            setChecked={setChecked}
+          />
+        </div>
+        {/* Listing section */}
+        <div>
+          <ListingLayout
+            listingState={listing}
+            setListing={setListing}
+            savedMarkers={savedMarkers}
+            setSavedMarkers={setSavedMarkers}
+            checked={checked}
+            setChecked={setChecked}
+          />
+        </div>
       </div>
     </div>
   );

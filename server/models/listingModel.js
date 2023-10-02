@@ -7,7 +7,7 @@ const listingSchema = new Schema({
   zipCode: { type: Number },
   price: { type: Number },
   moveInDate: { type: String },
-  numBedBath: { type: Number },
+  numBedBath: { type: String },
   squareFootage: { type: Number },
   notes: { type: String },
 });

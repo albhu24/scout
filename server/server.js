@@ -18,9 +18,12 @@ const app = express();
 const listing = require("./routes/listingRouter.js");
 const login = require("./routes/loginRouter.js");
 const signup = require("./routes/signupRouter.js");
+const images = require("./routes/imagesRouter.js");
 
 // middleware
 app.use(express.json());
+
+app.use("/images", images);
 app.use("/signup", signup);
 app.use("/login", login);
 app.use("/listing", listing);

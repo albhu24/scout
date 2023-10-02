@@ -1,7 +1,21 @@
 import React from "react";
 import listingModel from "../../../server/models/listingModel";
 
-const EditListing = ({ listing, setListing }) => {
+const EditListing = ({ listing, setListing, setModal }) => {
+  const arr = [...listing];
+  const prevValues = {};
+
+  console.log(arr);
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].checked === true) {
+      const currentListing = arr[i];
+      prevValues.address = currentListing.address;
+      prevValues.city = currentListing.city;
+      prevValues.zipCode = currentListing.zipCode;
+    }
+  }
+  console.log("prev values for input box", prevValues);
+
   const handleSave = () => {
     const address = document.getElementById("editAddress").value;
     const city = document.getElementById("editCity").value;
@@ -12,12 +26,13 @@ const EditListing = ({ listing, setListing }) => {
     const squareFootage = document.getElementById("editSquareFootage").value;
     const notes = document.getElementById("editNotes").value;
 
-    const add = document.getElementById("addy").value;
-    console.log("addy", add);
+    // const add = document.getElementById("addy").value;
 
     const arr = [...listing];
     console.log(arr);
+
     let prevAddress = undefined;
+    console.log(arr);
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].checked === true) {
         const currentListing = arr[i];
@@ -32,10 +47,10 @@ const EditListing = ({ listing, setListing }) => {
         currentListing.notes = notes;
       }
     }
+    console.log(arr);
     setListing(arr);
 
     // find the listing, update listing, and save
-
     const addressData = {
       address,
       city,
@@ -48,155 +63,118 @@ const EditListing = ({ listing, setListing }) => {
       prevAddress,
     };
 
-    fetch("/listing", {
-      method: "PUT",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(addressData),
-    });
-  };
-  // return (
-  //   <div>
-  //     <div>
-  //       <form id="editListing">
-  //         <div>
-  //           <label>
-  //             Address:
-  //             <input id="editAddress" />
-  //           </label>
-  //         </div>
-  //         <div>
-  //           <label>
-  //             City:
-  //             <input id="editCity" />
-  //           </label>
-  //         </div>
-  //         <div>
-  //           <label>
-  //             Zip Code:
-  //             <input id="editZipCode" />
-  //           </label>
-  //         </div>
-  //         <div>
-  //           <label>
-  //             Price:
-  //             <input id="editPrice" />
-  //           </label>
-  //         </div>
-  //         <div>
-  //           <label>
-  //             Move In Date:
-  //             <input id="editDate" />
-  //           </label>
-  //         </div>
-  //         <div>
-  //           <label>
-  //             Bed/Bath:
-  //             <input id="editBedBath" />
-  //           </label>
-  //         </div>
-  //         <div>
-  //           <label>
-  //             Square Footage:
-  //             <input id="editSquareFootage" />
-  //           </label>
-  //         </div>
-  //         <div>
-  //           <label>
-  //             Notes:
-  //             <input id="editNotes" />
-  //           </label>
-  //         </div>
-  //       </form>
-  //       <div>
-  //         <button>button2</button>
-  //         <button>button3</button>
-  //         <button>button4</button>
-  //         <button onClick={handleSave}>Save</button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+    // fetch("/listing", {
+    //   method: "PUT",
+    //   mode: "cors",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(addressData),
+    // });
 
+    setModal(false);
+  };
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <div>
-        <form id="editListing">
-          <div className="mb-4">
-            <label className="text-gray-600 block">Address:</label>
-            <input
-              id="editAddress"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="text-gray-600 block">City:</label>
-            <input
-              id="editCity"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="text-gray-600 block">Zip Code:</label>
-            <input
-              id="editZipCode"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="text-gray-600 block">Price:</label>
-            <input
-              id="editPrice"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="text-gray-600 block">Move In Date:</label>
-            <input
-              id="editDate"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="text-gray-600 block">Bed/Bath:</label>
-            <input
-              id="editBedBath"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="text-gray-600 block">Square Footage:</label>
-            <input
-              id="editSquareFootage"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="text-gray-600 block">Notes:</label>
-            <input
-              id="editNotes"
-              className="border border-gray-300 rounded-md px-2 py-1 w-full"
-            />
-          </div>
-        </form>
-      </div>
-      <div className="mt-4">
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 mr-2">
-          Button2
-        </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 mr-2">
-          Button3
-        </button>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 mr-2">
-          Button4
-        </button>
+    <div className="bg-white p-6 rounded-lg shadow flex flex-col items-center">
+      <form id="editListing" className="w-full">
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">
+            Address:
+          </label>
+          <input
+            id="editAddress"
+            // placeholder="123 Main St"
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+            value={prevValues.address}
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">City:</label>
+          <input
+            id="editCity"
+            value={prevValues.city}
+            // placeholder="City Name"
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">
+            Zip Code:
+          </label>
+          <input
+            id="editZipCode"
+            // placeholder="12345"
+            value={prevValues.zipCode}
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">Price:</label>
+          <input
+            id="editPrice"
+            placeholder="$1000"
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">
+            Move In Date:
+          </label>
+          <input
+            id="editDate"
+            placeholder="DD/MM/YYYY"
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">
+            Bed/Bath:
+          </label>
+          <input
+            id="editBedBath"
+            placeholder="2 Beds / 1 Bath"
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">
+            Square Footage:
+          </label>
+          <input
+            id="editSquareFootage"
+            placeholder="1000 sqft"
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-600 block mb-1 text-center">Notes:</label>
+          <input
+            id="editNotes"
+            placeholder="Additional Information"
+            className="border border-gray-300 rounded-md px-3 py-2 w-3/4 m-auto block transition-shadow focus:border-gray-400 focus:shadow-outline"
+          />
+        </div>
+      </form>
+
+      <div className="mt-6 flex space-x-4 w-full justify-center">
         <button
           onClick={handleSave}
-          className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300"
+          className="w-1/3 bg-gray-200 text-gray-700 py-2 px-4 rounded transition-colors hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300"
         >
           Save
+        </button>
+        <button
+          onClick={() => setModal(false)}
+          className="w-1/3 bg-gray-200 text-gray-700 py-2 px-4 rounded transition-colors hover:bg-gray-300 focus:outline-none focus:ring focus:ring-gray-300"
+        >
+          Close
         </button>
       </div>
     </div>
